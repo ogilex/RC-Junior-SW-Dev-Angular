@@ -1,0 +1,31 @@
+.main {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+table {
+    width: 30%;
+}
+
+th {
+    background-color: lightgray;
+}
+
+table, th, td {
+    border: 1px solid gray;
+    border-collapse: collapse;
+    padding: 10px;
+}
+
+.hourColumn {
+    text-align: center;
+}
+
+.nameColumn {
+    text-align: left;
+}
+
+.lowHours {
+    background-color: #F4AD9C;
+}
+
+

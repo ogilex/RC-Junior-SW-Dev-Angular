@@ -1,0 +1,21 @@
+<div class="main">
+    <div class="employeeTable">
+        <h1>Employee Table</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th class="nameColumn">Name</th>
+                    <th>Total Time in Month</th>
+                </tr>
+            </thead>
+            <tbody>
+                    <tr *ngFor="let employee of employeesView" [ngClass]="{'lowHours': +employee.HourDuration < 100}">
+                    <td>{{ employee.EmployeeName }}</td>
+                    <td class="hourColumn">{{ employee.HourDuration }} hrs</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
