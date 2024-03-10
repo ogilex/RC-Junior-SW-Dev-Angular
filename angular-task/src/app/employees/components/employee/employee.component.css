@@ -28,4 +28,8 @@ table, th, td {
     background-color: #F4AD9C;
 }
 
-
+.employeeChart {
+    margin-top: 10px;
+    height: 60vh;
+    width: 100vw;
+}

@@ -29,7 +29,7 @@ export class EmployeeComponent implements OnInit{
       response => {
         this.employeeList = response;
         this.calculateWorkTimeForEmployees();
-        //this.createChart();
+        this.createChart();
       }
     )
   }
@@ -53,7 +53,7 @@ export class EmployeeComponent implements OnInit{
     
     this.hashMap.forEach((duration, empName) => {
       
-      let hourDuration = Math.round(duration.valueOf() / 3600000);
+      let hourDuration = Math.trunc(duration.valueOf() / 3600000);
       this.hashMap.set(empName, hourDuration);
       let emp: EmployeeView = {
         EmployeeName: empName,
@@ -66,4 +66,62 @@ export class EmployeeComponent implements OnInit{
 
   }
 
+  createChart(){
+    let emplyeeNames = Array.from(this.hashMap.keys());
+    let employeeHours = Array.from(this.hashMap.values());
+    let dynamicColors = (): string => {
+      let h: number = Math.floor(Math.random() * 360);
+      let s: number = Math.floor(Math.random() * 20) + 80;
+      let l: number = Math.floor(Math.random() * 20) + 60;
+      let rgbColor: string = `hsl(${h},${s}%,${l}%)`;
+  
+      if (!this.usedColors.has(rgbColor)) {
+          this.usedColors.add(rgbColor);
+          return rgbColor;
+      } else {
+          return dynamicColors();
+      }
+  };
+  
+  for (let _i in employeeHours) {
+    this.randomBackgroundColor.push(dynamicColors());
+  }
+    this.chart = new Chart("myChart",{
+      type: 'pie',
+      data: {
+        labels: emplyeeNames,
+          datasets: [{
+            label: 'Hours Worked',
+            data: employeeHours,
+            backgroundColor: this.randomBackgroundColor
+          }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          datalabels: {
+            formatter: ((value: any, context: any) => {
+              let datapoints = context.chart.data.datasets[0].data;
+              function totalSum(total: any, dadapoint: any) {
+                return total + dadapoint;
+              }
+              let totalValue = datapoints.reduce(totalSum, 0);
+              let percentageValue = (value / totalValue * 100).toFixed(0);
+              return `${percentageValue}%`;
+            }),
+            color: '#000000'
+          },  
+          legend: {
+            display: true,
+            position: 'bottom'
+          }
+          
+        }
+      },
+      plugins: [ChartDataLabels]
+    })
+  }
+
 }
+
+
